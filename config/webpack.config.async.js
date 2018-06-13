@@ -5,10 +5,10 @@ const path = require('path');
 
 module.exports = () => {
     return merge(base(), {
-        module: {
-            output: {
-                path: path.resolve(__dirname, '../build-async')
-            },
+        output: {
+            path: path.resolve(__dirname, '../build-async')
+        },
+        module: {  
             rules: [
                 {
                     test: /\.(jsx?|tsx?)$/,
