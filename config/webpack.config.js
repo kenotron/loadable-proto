@@ -47,6 +47,9 @@ module.exports = (options) => ({
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
   entry: [require.resolve('./polyfills'), paths.appIndexJs],
+  optimization: {
+    concatenateModules: false
+  },
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -188,6 +191,7 @@ module.exports = (options) => ({
     // Otherwise React will be compiled in the very slow development mode.
     new webpack.DefinePlugin(env.stringified),
     new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
       openAnalyzer: false,
       reportFilename: 'bundle-analyzer.html',
       analyzerPort: options && options.analyzerPort || 8888

@@ -3,8 +3,11 @@ const merge = require('webpack-merge');
 const webpack = require('webpack');
 const path = require('path');
 
-module.exports = () => {
-    const config = merge(base({analyzerPort: 8889}), {
+module.exports = (options) => {
+    const config = merge(base({analyzerPort: 8889, ...options}), {
+        optimization: {
+            concatenateModules: true
+        },
         output: {
             path: path.resolve(__dirname, '../build-treeshake')
         },
@@ -12,8 +15,5 @@ module.exports = () => {
             new webpack.optimize.ModuleConcatenationPlugin()
         ]
     });
-
-    console.log(JSON.stringify(config, null, 2));
-
     return config;
 }

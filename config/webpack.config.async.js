@@ -3,8 +3,8 @@ const merge = require('webpack-merge');
 const webpack = require('webpack');
 const path = require('path');
 
-module.exports = () => {
-    return merge(base(), {
+module.exports = (options) => {
+    return merge(base({analyzerPort: 8889, ...options}), {
         output: {
             path: path.resolve(__dirname, '../build-async')
         },
