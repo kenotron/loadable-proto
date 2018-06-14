@@ -7,6 +7,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
+const CompressionPlugin = require("compression-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -40,6 +42,7 @@ module.exports = (options) => ({
     'react': 'React',
     'react-dom': 'ReactDOM'
   },
+  mode: 'production',
   // Don't attempt to continue if there are any errors.
   bail: true,
   // We generate sourcemaps in production. This is slow but gives good results.
@@ -168,7 +171,6 @@ module.exports = (options) => ({
     ],
   },
   plugins: [
-    
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appHtml,
@@ -195,7 +197,14 @@ module.exports = (options) => ({
       openAnalyzer: false,
       reportFilename: 'bundle-analyzer.html',
       analyzerPort: options && options.analyzerPort || 8888
-    })
+    }),
+    new CompressionPlugin({
+      test: /\.js/,
+      asset: '[path].gz[query]'
+    }),
+    new CopyWebpackPlugin([
+      'vendor/*.js'
+    ])
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.

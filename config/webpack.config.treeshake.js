@@ -11,9 +11,6 @@ module.exports = (options) => {
         output: {
             path: path.resolve(__dirname, '../build-treeshake')
         },
-        plugins: [
-            new webpack.optimize.ModuleConcatenationPlugin()
-        ]
     });
     return config;
 }
